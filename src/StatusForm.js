@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import autoBind from 'react-autobind';
 import Time from 'react-time'
+import SunCalc from 'suncalc'
 import './led.css';
 
 class StatusForm extends Component {
@@ -60,17 +61,25 @@ render() {
   var valid = this.checkValid();
   var vs = (name) => (valid[name].length === 0) ? <span></span>: <span style={red} title={valid[name]}>*</span>;
 
+  var times = SunCalc.getTimes(new Date(), 34.75, -92.29);
+  this.state.sunrise = times.sunrise.getHours() + ':' + times.sunrise.getMinutes() + 'AM';
+  this.state.sunset = (times.sunset.getHours()-12) + ':' + times.sunset.getMinutes() + 'PM';
+  this.state.dooropen = this.state.sunrise;
+  this.state.doorclose = this.state.sunset;
+  this.state.lighton = this.state.sunrise;
+  this.state.lightoff = this.state.sunset;
+
   return <div>
            <h1>Coop Status</h1>
            <p>Current time <Time value={now} format="YYYY/MM/DD HH:mm" /></p>
              <div onChange={this.handleChange} >
              <div className="App-entry">
-             <label>Sun Rise Time:</label>
-             <label>Sun Set Time:</label> <br /><br />
-             <label>Door Open Time:</label>
-             <label>Door Close Time:</label><br /><br />
-             <label>Light On:</label>
-             <label>Light Off:</label><br /><br />
+             <label>Sun Rise Time:</label>{this.state.sunrise}
+             <label>Sun Set Time:</label>{this.state.sunset}<br /><br />
+             <label>Door Open Time:</label>{this.state.dooropen}
+             <label>Door Close Time:</label>{this.state.doorclose}<br /><br />
+             <label>Light On:</label>{this.state.lighton}
+             <label>Light Off:</label>{this.state.lightoff}<br /><br />
              Heat Status: <br /><br />
              Fan Status:
              <div class="container">
