@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import autoBind from 'react-autobind';
 import Time from 'react-time'
 import SunCalc from 'suncalc'
+import myData from './data.json';
+
 import './led.css';
 
 class StatusForm extends Component {
@@ -26,23 +28,6 @@ class StatusForm extends Component {
       };
     }
 
-    checkValid() {
-            var sPat = /^[A-Za-z ]*$/;
-            var siPat = /^[A-Za-z0-9//]*$/;
-            var iPat = /^\d+$/;
-
-            var valid = {};
-//            valid.experiment     = iPat.test(this.state.experiment) ? '' : 'bad experiment - number only';
-//            valid.btest       = iPat.test(this.state.btest) ? '' : 'bad test - number only';
-//            valid.bfirst       = iPat.test(this.state.bfirst) ? '' : 'bad first cage - number only';
-//            valid.blast       = iPat.test(this.state.blast) ? '' : 'bad last cage - number only';
-//            valid.piname =  sPat.test(this.state.piname) ? '' : 'bad PI name - no numbers allowed';
-//            valid.piext     = iPat.test(this.state.piext) ? '' : 'bad PI extension - number only';
-//            valid.scode      = siPat.test(this.state.scode) ? '' : 'bad strain code - no spaces allowed';
-
-            return valid;
-    }
-
     handleChange(event) {
           event.preventDefault();
 
@@ -53,13 +38,25 @@ class StatusForm extends Component {
           this.setState(stateChange);
     }
 
+    storeData() {
+      var data = {
+        dooropenOffset: 10,
+        doorcloseOffset: 20,
+        lightonOffset: 30,
+        lightoffOffset: 40
+      }
+
+//      var obj = JSON.stringify(data, null, 4);
+//      RNFS.writeFile('./data.json', obj, function(err){
+//          if(err)console.log(err);
+//          else console.log("success");
+//         });
+    }
+
 render() {
 
+  this.storeData();
   let now = new Date()
-
-  var red = {color: 'rgb(255,0,0)', fontSize: '1.6em'};
-  var valid = this.checkValid();
-  var vs = (name) => (valid[name].length === 0) ? <span></span>: <span style={red} title={valid[name]}>*</span>;
 
   var times = SunCalc.getTimes(new Date(), 34.75, -92.29);
   this.state.sunrise = times.sunrise.getHours() + ':' + times.sunrise.getMinutes() + 'AM';
@@ -82,11 +79,6 @@ render() {
              <label>Light Off:</label>{this.state.lightoff}<br /><br />
              Heat Status: <br /><br />
              Fan Status:
-             <div class="container">
-               <div class="led-box">
-                 <div class="led-green"></div>
-               </div>
-             </div>
              </div>
              <hr />
            </div>

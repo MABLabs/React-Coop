@@ -10,6 +10,7 @@
     "react": "^15.4.2",
     "react-autobind": "^1.0.6",
     "react-dom": "^15.4.2",
+    "react-native-fs": "^2.1.0-rc.1",
     "react-time": "^4.2.0",
     "suncalc": "^1.8.0"
   },
