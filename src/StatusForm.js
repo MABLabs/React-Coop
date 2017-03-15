@@ -77,10 +77,9 @@ render() {
              <label>Door Close Time:</label>{this.state.doorclose}<br /><br />
              <label>Light On:</label>{this.state.lighton}
              <label>Light Off:</label>{this.state.lightoff}<br /><br />
-             Heat Status: <br /><br />
-             Fan Status:
+             <label>Heat Status:</label>Off<br /><br />
+             <label>Fan Status:</label>Off
              </div>
-             <hr />
            </div>
          </div>
   }

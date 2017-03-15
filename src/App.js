@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from './RedroosterSmall.svg.png';
 //import autoBind from 'react-autobind';
-import fs from 'react-native-fs'
+//import fs from 'react-native-fs'
 import myData from './data.json';
 
 import './App.css';
