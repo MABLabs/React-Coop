@@ -40,6 +40,8 @@ class StatusForm extends Component {
 
     storeData() {
       var data = {
+        latitude: 34.63416667,
+        longitude: -92.31388889,
         dooropenOffset: 10,
         doorcloseOffset: 20,
         lightonOffset: 30,
@@ -58,7 +60,7 @@ render() {
   this.storeData();
   let now = new Date()
 
-  var times = SunCalc.getTimes(new Date(), 34.75, -92.29);
+  var times = SunCalc.getTimes(new Date(), 34.63416667, -92.31388889);
   this.state.sunrise = times.sunrise.getHours() + ':' + times.sunrise.getMinutes() + 'AM';
   this.state.sunset = (times.sunset.getHours()-12) + ':' + times.sunset.getMinutes() + 'PM';
   this.state.dooropen = this.state.sunrise;
