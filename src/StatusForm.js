@@ -38,50 +38,68 @@ class StatusForm extends Component {
           this.setState(stateChange);
     }
 
-    storeData() {
-      var data = {
-        latitude: 34.63416667,
-        longitude: -92.31388889,
-        dooropenOffset: 10,
-        doorcloseOffset: 20,
-        lightonOffset: 30,
-        lightoffOffset: 40
+    submitData() {
+    }
+
+    adjustTime(rHours, rMinutes, offset, ampm)
+    {
+      var adjustedTime = '';
+
+      var toffset = rMinutes + offset;
+      if (toffset < 0) {
+        rHours--;
+        toffset = 60 + toffset;
       }
 
-//      var obj = JSON.stringify(data, null, 4);
-//      RNFS.writeFile('./data.json', obj, function(err){
-//          if(err)console.log(err);
-//          else console.log("success");
-//         });
+      if (toffset > 59) {
+        rHours++;
+        toffset = toffset - 60;
+      }
+
+      adjustedTime = rHours + ':' + toffset + ampm;
+
+      return adjustedTime;
     }
+
+    refreshData() {
+      window.location.reload();
+   }
 
 render() {
 
-  this.storeData();
   let now = new Date()
 
-  var times = SunCalc.getTimes(new Date(), 34.63416667, -92.31388889);
+  var lat = parseFloat((myData.latitude).toFixed(4));
+  var long = parseFloat((myData.longitude).toFixed(4));
+
+  //var addRise = this.state.sunrise.add(myData.dooropenOffset);
+
+  var times = SunCalc.getTimes(new Date(), myData.latitude, myData.longitude);
   this.state.sunrise = times.sunrise.getHours() + ':' + times.sunrise.getMinutes() + 'AM';
   this.state.sunset = (times.sunset.getHours()-12) + ':' + times.sunset.getMinutes() + 'PM';
-  this.state.dooropen = this.state.sunrise;
-  this.state.doorclose = this.state.sunset;
-  this.state.lighton = this.state.sunrise;
-  this.state.lightoff = this.state.sunset;
+//  this.state.dooropen = times.sunrise.getHours() + ':' + (times.sunrise.getMinutes() + myData.dooropenOffset) + 'AM';
+  this.state.dooropen = this.adjustTime(times.sunrise.getHours(), times.sunrise.getMinutes(), myData.dooropenOffset, 'AM');
+  this.state.doorClose = this.adjustTime((times.sunset.getHours()-12), times.sunset.getMinutes(), myData.doorcloseOffset, 'PM');
+  this.state.lighton = this.adjustTime(times.sunrise.getHours(), times.sunrise.getMinutes(), myData.lightonOffset, 'AM');
+  this.state.lightoff = this.adjustTime((times.sunset.getHours()-12), times.sunset.getMinutes(), myData.lightoffOffset, 'PM');
 
   return <div>
            <h1>Coop Status</h1>
            <p>Current time <Time value={now} format="YYYY/MM/DD HH:mm" /></p>
              <div onChange={this.handleChange} >
              <div className="App-entry">
-             <label>Sun Rise Time:</label>{this.state.sunrise}
-             <label>Sun Set Time:</label>{this.state.sunset}<br /><br />
-             <label>Door Open Time:</label>{this.state.dooropen}
-             <label>Door Close Time:</label>{this.state.doorclose}<br /><br />
-             <label>Light On:</label>{this.state.lighton}
-             <label>Light Off:</label>{this.state.lightoff}<br /><br />
-             <label>Heat Status:</label>Off<br /><br />
-             <label>Fan Status:</label>Off
+             <label>Latitude:</label><b>{lat}</b>
+             <label>Longitude:</label><b>{long}</b><br /><br />
+             <label>Sun Rise Time:</label><b>{this.state.sunrise}</b>
+             <label>Sun Set Time:</label><b>{this.state.sunset}</b><br /><br />
+             <label>Door Open Time:</label><b>{this.state.dooropen}</b>
+             <label>Door Close Time:</label><b>{this.state.doorClose}</b><br /><br />
+             <label>Light On:</label><b>{this.state.lighton}</b>
+             <label>Light Off:</label><b>{this.state.lightoff}</b><br /><br />
+             <label>Heat Status:</label><b>Off</b><br /><br />
+             <label>Fan Status:</label><b>Off</b>
              </div>
+           <button type="button" onClick={this.refreshData}>Refresh Page</button>&nbsp;
            </div>
          </div>
   }

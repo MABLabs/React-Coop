@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import logo from './RedroosterSmall.svg.png';
 //import autoBind from 'react-autobind';
 //import fs from 'react-native-fs'
-import myData from './data.json';
 
 import './App.css';
 import './led.css';
@@ -25,20 +24,6 @@ handleChange(event) {
 }
 
   render() {
-
-    console.log(myData);
-//    console.log(JSON.parse(JSON.stringify(myData)));
-    console.log("Before Json");
-    for(var i = 0; i < myData.length; i++) {
-        var obj = myData[i];
-        console.log("Door Offset " + obj.dooropenOffset + ", " + obj.doorcloseOffset);
-    }
-console.log("After Json");
-//myData.writeFile('./fileData.json', data, function(err){
-//    if(err)console.log(err);
-//    else console.log("success");
-//   });
-
     let activeForm = <div>The Form '{this.state.value}' not yet coded.</div>;
     switch (this.state.value) {
       case 'status':   activeForm = <StatusForm />;   break;

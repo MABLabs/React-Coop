@@ -5,28 +5,21 @@ class OverideForm extends Component {
     constructor(props) {
       super(props);
 
+      this.state = {
+          value: false
+      }
+
       autoBind(this);
 
       this.state = {
-        cooptype: 'overide',
-        sunrise: 0,
-        sunset: 0,
-        dooropen: 0,
-        doorclose: 0,
-        lighton: 0,
-        lightoff: 0,
-        heaton: 0,
-        heatoff: 0,
-        fanon: 0,
-        fanoff: 0,
-        newInfo: false
+        prop: 0
       };
 }
 
 checkValid() {
-        var sPat = /^[A-Za-z ]*$/;
-        var siPat = /^[A-Za-z0-9//]*$/;
-        var iPat = /^\d+$/;
+//        var sPat = /^[A-Za-z ]*$/;
+//        var siPat = /^[A-Za-z0-9//]*$/;
+//        var iPat = /^\d+$/;
 
         var valid = {};
 //            valid.experiment     = iPat.test(this.state.experiment) ? '' : 'bad experiment - number only';
@@ -61,8 +54,8 @@ return <div>
          <div onChange={this.handleChange} >
            <div className="App-entry">
              <h1>I am here in Override</h1>
-           </div>
            <hr />
+           </div>
          </div>
        </div>
   }
