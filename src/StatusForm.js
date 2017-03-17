@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import autoBind from 'react-autobind';
 import Time from 'react-time'
 import SunCalc from 'suncalc'
+import Clock from 'react-clock'
 import myData from './data.json';
 
 import './led.css';
@@ -77,7 +78,7 @@ render() {
   var times = SunCalc.getTimes(new Date(), myData.latitude, myData.longitude);
   this.state.sunrise = times.sunrise.getHours() + ':' + times.sunrise.getMinutes() + 'AM';
   this.state.sunset = (times.sunset.getHours()-12) + ':' + times.sunset.getMinutes() + 'PM';
-//  this.state.dooropen = times.sunrise.getHours() + ':' + (times.sunrise.getMinutes() + myData.dooropenOffset) + 'AM';
+
   this.state.dooropen = this.adjustTime(times.sunrise.getHours(), times.sunrise.getMinutes(), myData.dooropenOffset, 'AM');
   this.state.doorClose = this.adjustTime((times.sunset.getHours()-12), times.sunset.getMinutes(), myData.doorcloseOffset, 'PM');
   this.state.lighton = this.adjustTime(times.sunrise.getHours(), times.sunrise.getMinutes(), myData.lightonOffset, 'AM');
@@ -85,7 +86,7 @@ render() {
 
   return <div>
            <h1>Coop Status</h1>
-           <p>Current time <Time value={now} format="YYYY/MM/DD HH:mm" /></p>
+           <p><Time value={now} format="MM/DD/YYYY"/><Clock /></p>
              <div onChange={this.handleChange} >
              <div className="App-entry">
              <label>Latitude:</label><b>{lat}</b>

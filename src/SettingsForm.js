@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import autoBind from 'react-autobind';
+import RNFS from 'react-native-level-fs';
 import myData from './data.json';
 
 class SettingsForm extends Component {
@@ -54,9 +55,16 @@ handleChange(event) {
 }
 
 saveData() {
-  var file = './data.json';
-  var out = JSON.stringify(...this.state)
-  myData.writeFile(file, out);
+
+  var file = './dataCopy.json';
+  var out = JSON.stringify(this.state)
+  console.log(this.state)
+  console.log(out)
+  RNFS.writeFile(file, out, function () {
+    RNFS.readFile(file, 'utf-8', function(err, data) {
+      console.log(data);
+    });
+  });
 }
 
 render() {
