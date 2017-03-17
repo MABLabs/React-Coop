@@ -71,16 +71,16 @@ return <div>
          <h1>Coop Settings</h1>
          <div onChange={this.handleChange} >
          <div className="App-entry">
-         <label>Latitude:</label> <input  size="8" name="latitude" value={this.state.latitude} /> {vs('latitude')}<br /><br />
-         <label>Longitude:</label> <input  size="8" name="longitude" value={this.state.longitude} /> {vs('longitude')}<br /><br />
-         <label>Door Open Offset:</label> <input  size="2" name="dooropen" value={this.state.dooropen} /> {vs('dooropen')}min
-         <label>Door Close Offset:</label> <input  size="2" name="doorclose" value={this.state.doorclose} /> {vs('doorclose')}min<br /><br />
-         <label>Light On Offset:</label> <input  size="2" name="lighton" value={this.state.lighton} /> {vs('lighton')}min
-         <label>Light Off Offset:</label> <input  size="2" name="lightoff" value={this.state.lightoff} /> {vs('lightoff')}min<br /><br />
-         <label>Heat On Temperature:</label> <input  size="2" name="heaton" value={this.state.heaton} /> {vs('heaton')}deg
-         <label>Heat Off Temperature:</label> <input  size="2" name="heatoff" value={this.state.heatoff} /> {vs('heatoff')}deg<br /><br />
-         <label>Fan On Temperature:</label> <input  size="2" name="fanon" value={this.state.fanon} /> {vs('fanon')}deg
-         <label>Fan Off Temperature:</label> <input  size="2" name="fanoff" value={this.state.fanoff} /> {vs('fanoff')}deg<br /><br />
+         <label>Latitude:</label> <input  size="12" name="latitude" value={this.state.latitude} /> {vs('latitude')}<br /><br />
+         <label>Longitude:</label> <input  size="12" name="longitude" value={this.state.longitude} /> {vs('longitude')}<br /><br />
+         <label>Door Open Offset:</label> <input  size="3" name="dooropen" value={this.state.dooropen} /> {vs('dooropen')}min
+         <label>Door Close Offset:</label> <input  size="3" name="doorclose" value={this.state.doorclose} /> {vs('doorclose')}min<br /><br />
+         <label>Light On Offset:</label> <input  size="3" name="lighton" value={this.state.lighton} /> {vs('lighton')}min
+         <label>Light Off Offset:</label> <input  size="3" name="lightoff" value={this.state.lightoff} /> {vs('lightoff')}min<br /><br />
+         <label>Heat On Temperature:</label> <input  size="3" name="heaton" value={this.state.heaton} /> {vs('heaton')}deg
+         <label>Heat Off Temperature:</label> <input  size="3" name="heatoff" value={this.state.heatoff} /> {vs('heatoff')}deg<br /><br />
+         <label>Fan On Temperature:</label> <input  size="3" name="fanon" value={this.state.fanon} /> {vs('fanon')}deg
+         <label>Fan Off Temperature:</label> <input  size="3" name="fanoff" value={this.state.fanoff} /> {vs('fanoff')}deg<br /><br />
          </div>
        <button type="button" onClick={this.saveData}>Save Settings</button>&nbsp;
        </div>
