@@ -3,6 +3,6 @@ npm install suncalc --save
 npm install react-time --save
 npm install moment --save
 npm install react-clock --save
-npm install react-native-level-fs --save
+npm install axios --save
 npm install asyncstorage-down --save
-npm install react-native-web --save
+

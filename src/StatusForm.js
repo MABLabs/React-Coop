@@ -5,7 +5,7 @@ import SunCalc from 'suncalc'
 import Clock from 'react-clock'
 import myData from './data.json';
 
-import './led.css';
+//import './led.css';
 
 class StatusForm extends Component {
     constructor(props) {
@@ -57,7 +57,7 @@ class StatusForm extends Component {
         toffset = toffset - 60;
       }
 
-      adjustedTime = rHours + ':' + toffset + ampm;
+      adjustedTime = rHours + ':' + (('00'+toffset).slice(-2)) + ampm;
 
       return adjustedTime;
     }
@@ -76,13 +76,21 @@ render() {
   //var addRise = this.state.sunrise.add(myData.dooropenOffset);
 
   var times = SunCalc.getTimes(new Date(), myData.latitude, myData.longitude);
-  this.state.sunrise = times.sunrise.getHours() + ':' + times.sunrise.getMinutes() + 'AM';
-  this.state.sunset = (times.sunset.getHours()-12) + ':' + times.sunset.getMinutes() + 'PM';
+  this.setState({sunrise: (times.sunrise.getHours() + ':' + times.sunrise.getMinutes() + 'AM')});
+  this.setState({sunset:  ((times.sunset.getHours()-12) + ':' + times.sunset.getMinutes() + 'PM')});
 
-  this.state.dooropen = this.adjustTime(times.sunrise.getHours(), times.sunrise.getMinutes(), myData.dooropenOffset, 'AM');
-  this.state.doorClose = this.adjustTime((times.sunset.getHours()-12), times.sunset.getMinutes(), myData.doorcloseOffset, 'PM');
-  this.state.lighton = this.adjustTime(times.sunrise.getHours(), times.sunrise.getMinutes(), myData.lightonOffset, 'AM');
-  this.state.lightoff = this.adjustTime((times.sunset.getHours()-12), times.sunset.getMinutes(), myData.lightoffOffset, 'PM');
+  this.setState({dooropen: (this.adjustTime(times.sunrise.getHours(), times.sunrise.getMinutes(), myData.dooropenOffset, 'AM'))});
+  this.setState({doorClose: (this.adjustTime((times.sunset.getHours()-12), times.sunset.getMinutes(), myData.doorcloseOffset, 'PM'))});
+
+  this.setState({lighton: (this.adjustTime(times.sunrise.getHours(), times.sunrise.getMinutes(), myData.lightonOffset, 'AM'))});
+  this.setState({lightoff: (this.adjustTime((times.sunset.getHours()-12), times.sunset.getMinutes(), myData.lightoffOffset, 'PM'))});
+//  this.state.sunrise = times.sunrise.getHours() + ':' + times.sunrise.getMinutes() + 'AM';
+//  this.state.sunset = (times.sunset.getHours()-12) + ':' + times.sunset.getMinutes() + 'PM';
+
+//  this.state.dooropen = this.adjustTime(times.sunrise.getHours(), times.sunrise.getMinutes(), myData.dooropenOffset, 'AM');
+//  this.state.doorClose = this.adjustTime((times.sunset.getHours()-12), times.sunset.getMinutes(), myData.doorcloseOffset, 'PM');
+//  this.state.lighton = this.adjustTime(times.sunrise.getHours(), times.sunrise.getMinutes(), myData.lightonOffset, 'AM');
+//  this.state.lightoff = this.adjustTime((times.sunset.getHours()-12), times.sunset.getMinutes(), myData.lightoffOffset, 'PM');
 
   return <div>
            <h1>Coop Status</h1>
