@@ -76,25 +76,25 @@ render() {
   //var addRise = this.state.sunrise.add(myData.dooropenOffset);
 
   var times = SunCalc.getTimes(new Date(), myData.latitude, myData.longitude);
-  this.setState({sunrise: (times.sunrise.getHours() + ':' + times.sunrise.getMinutes() + 'AM')});
-  this.setState({sunset:  ((times.sunset.getHours()-12) + ':' + times.sunset.getMinutes() + 'PM')});
+//  this.setState({sunrise: (times.sunrise.getHours() + ':' + times.sunrise.getMinutes() + 'AM')});
+//  this.setState({sunset:  ((times.sunset.getHours()-12) + ':' + times.sunset.getMinutes() + 'PM')});
 
-  this.setState({dooropen: (this.adjustTime(times.sunrise.getHours(), times.sunrise.getMinutes(), myData.dooropenOffset, 'AM'))});
-  this.setState({doorClose: (this.adjustTime((times.sunset.getHours()-12), times.sunset.getMinutes(), myData.doorcloseOffset, 'PM'))});
+//  this.setState({dooropen: (this.adjustTime(times.sunrise.getHours(), times.sunrise.getMinutes(), myData.dooropenOffset, 'AM'))});
+//  this.setState({doorClose: (this.adjustTime((times.sunset.getHours()-12), times.sunset.getMinutes(), myData.doorcloseOffset, 'PM'))});
 
-  this.setState({lighton: (this.adjustTime(times.sunrise.getHours(), times.sunrise.getMinutes(), myData.lightonOffset, 'AM'))});
-  this.setState({lightoff: (this.adjustTime((times.sunset.getHours()-12), times.sunset.getMinutes(), myData.lightoffOffset, 'PM'))});
-//  this.state.sunrise = times.sunrise.getHours() + ':' + times.sunrise.getMinutes() + 'AM';
-//  this.state.sunset = (times.sunset.getHours()-12) + ':' + times.sunset.getMinutes() + 'PM';
+//  this.setState({lighton: (this.adjustTime(times.sunrise.getHours(), times.sunrise.getMinutes(), myData.lightonOffset, 'AM'))});
+//  this.setState({lightoff: (this.adjustTime((times.sunset.getHours()-12), times.sunset.getMinutes(), myData.lightoffOffset, 'PM'))});
+  this.state.sunrise = times.sunrise.getHours() + ':' + times.sunrise.getMinutes() + 'AM';
+  this.state.sunset = (times.sunset.getHours()-12) + ':' + times.sunset.getMinutes() + 'PM';
 
-//  this.state.dooropen = this.adjustTime(times.sunrise.getHours(), times.sunrise.getMinutes(), myData.dooropenOffset, 'AM');
-//  this.state.doorClose = this.adjustTime((times.sunset.getHours()-12), times.sunset.getMinutes(), myData.doorcloseOffset, 'PM');
-//  this.state.lighton = this.adjustTime(times.sunrise.getHours(), times.sunrise.getMinutes(), myData.lightonOffset, 'AM');
-//  this.state.lightoff = this.adjustTime((times.sunset.getHours()-12), times.sunset.getMinutes(), myData.lightoffOffset, 'PM');
+  this.state.dooropen = this.adjustTime(times.sunrise.getHours(), times.sunrise.getMinutes(), myData.dooropenOffset, 'AM');
+  this.state.doorClose = this.adjustTime((times.sunset.getHours()-12), times.sunset.getMinutes(), myData.doorcloseOffset, 'PM');
+  this.state.lighton = this.adjustTime(times.sunrise.getHours(), times.sunrise.getMinutes(), myData.lightonOffset, 'AM');
+  this.state.lightoff = this.adjustTime((times.sunset.getHours()-12), times.sunset.getMinutes(), myData.lightoffOffset, 'PM');
 
   return <div>
            <h1>Coop Status</h1>
-           <p><Time value={now} format="MM/DD/YYYY"/><Clock /></p>
+           <p><Time value={now} format="MM/DD/YYYY"/></p><Clock />
              <div onChange={this.handleChange} >
              <div className="App-entry">
              <label>Latitude:</label><b>{lat}</b>

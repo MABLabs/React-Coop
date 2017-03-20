@@ -57,12 +57,20 @@ handleChange(event) {
 saveData() {
 
   var out = JSON.stringify(this.state)
-  Axios.post('./data.json', out)
-  .then(function (response) {
-    console.log(response);
-  })
-  .catch(function (error) {
-    console.log(error);
+  console.log(this.state);
+  console.log(out);
+  Axios.post('/dataC.json', this.state)
+//  .then(function (response) {
+    .catch(function (error) {
+       if (error.response) {
+         console.log(error.response.data);
+         console.log(error.response.status);
+         console.log(error.response.headers);
+       }
+//           console.log(response);
+//  })
+//  .catch(function (error) {
+//    console.log(error);
   });
 
 //  var file = '/home/pi/React-Coop/src/data.json';
