@@ -5,4 +5,5 @@ npm install moment --save
 npm install react-clock --save
 npm install axios --save
 npm install asyncstorage-down --save
+npm install ds18b20-raspi --save
 

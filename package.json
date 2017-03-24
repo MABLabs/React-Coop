@@ -4,13 +4,20 @@
   "private": true,
   "proxy": "http://localhost:3000/",
   "devDependencies": {
+    "babel-core": "6.4.0",
+    "babel-loader": "^6.2.1",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-react": "^6.3.13",
+    "express": "^4.15.2",
+    "forever": "^0.15.3",
+    "image-webpack-loader": "^3.2.0",
     "react-scripts": "0.9.4"
   },
   "dependencies": {
     "asyncstorage-down": "^3.1.1",
     "axios": "^0.15.3",
     "jsonfile": "^2.4.0",
-    "moment": "^2.17.1",
+    "moment": "^2.18.0",
     "react": "^15.4.2",
     "react-autobind": "^1.0.6",
     "react-clock": "^1.0.5",
@@ -24,9 +31,17 @@
     "suncalc": "^1.8.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "Oldstart": "react-scripts start",
+    "Oldbuild": "react-scripts build",
+    "Oldtest": "react-scripts test --env=jsdom",
+    "Oldeject": "react-scripts eject",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "setup": "echo \"Read setup.md\" && exit 1",
+    "build": "webpack",
+    "_comment": "the next line switches SHOULD NOT be moved to devServer {} section of webpack.config.js -- it will not work, dont follow old documentation",
+    "hotload": "webpack-dev-server --devtool eval-source --progress --colors --hot --inline --history-api-fallback | grep -v 'built' ",
+    "start-api": "forever -w start server/server.js 8081 ",
+    "stop-api": "forever stop 0 ",
+    "start": "npm run start-api && npm run hotload"
   }
 }

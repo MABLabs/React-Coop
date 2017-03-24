@@ -3,8 +3,8 @@ import autoBind from 'react-autobind';
 import Time from 'react-time'
 import SunCalc from 'suncalc'
 import Clock from 'react-clock'
+//import Temp from 'ds18b20-raspi'
 import myData from './data.json';
-
 //import './led.css';
 
 class StatusForm extends Component {
@@ -76,6 +76,9 @@ render() {
   //var addRise = this.state.sunrise.add(myData.dooropenOffset);
 
   var times = SunCalc.getTimes(new Date(), myData.latitude, myData.longitude);
+  //var temp = Temp.readSimpleF();
+  //console.log(temp);
+
 //  this.setState({sunrise: (times.sunrise.getHours() + ':' + times.sunrise.getMinutes() + 'AM')});
 //  this.setState({sunset:  ((times.sunset.getHours()-12) + ':' + times.sunset.getMinutes() + 'PM')});
 
@@ -84,8 +87,8 @@ render() {
 
 //  this.setState({lighton: (this.adjustTime(times.sunrise.getHours(), times.sunrise.getMinutes(), myData.lightonOffset, 'AM'))});
 //  this.setState({lightoff: (this.adjustTime((times.sunset.getHours()-12), times.sunset.getMinutes(), myData.lightoffOffset, 'PM'))});
-  this.state.sunrise = times.sunrise.getHours() + ':' + times.sunrise.getMinutes() + 'AM';
-  this.state.sunset = (times.sunset.getHours()-12) + ':' + times.sunset.getMinutes() + 'PM';
+  this.state.sunrise = times.sunrise.getHours() + ':' + (('00'+times.sunrise.getMinutes()).slice(-2)) + 'AM';
+  this.state.sunset = (times.sunset.getHours()-12) + ':' + (('00'+times.sunset.getMinutes()).slice(-2)) + 'PM';
 
   this.state.dooropen = this.adjustTime(times.sunrise.getHours(), times.sunrise.getMinutes(), myData.dooropenOffset, 'AM');
   this.state.doorClose = this.adjustTime((times.sunset.getHours()-12), times.sunset.getMinutes(), myData.doorcloseOffset, 'PM');

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import logo from './RedroosterSmall.svg.png';
+import logo from './logo.svg';
+//import logo from './RedroosterSmall.png';
 //import autoBind from 'react-autobind';
 //import fs from 'react-native-fs'
 

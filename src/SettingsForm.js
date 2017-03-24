@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import autoBind from 'react-autobind';
-import Axios from 'axios';
+//import Axios from 'axios';
 import myData from './data.json';
 
 class SettingsForm extends Component {
@@ -55,7 +55,7 @@ handleChange(event) {
 }
 
 saveData() {
-
+/*
   var out = JSON.stringify(this.state)
   console.log(this.state);
   console.log(out);
@@ -81,7 +81,7 @@ saveData() {
 //    RNFS.readFile(file, 'utf-8', function(err, data) {
 //      console.log(data);
 //    });
-//  });
+//  });*/
 }
 
 render() {
