@@ -13,6 +13,7 @@ module.exports = {
      // these are in the package.json where the following is executed
      //  webpack-dev-server --devtool eval-source --progress --colors --hot --inline --history-api-fallback
 
+     host: '0.0.0.0',
      port: 8080,
      contentBase: './public/',
 

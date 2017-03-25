@@ -7,7 +7,7 @@ var express = require('express'),
 //var getFiles = require('./query.js').getFiles,
 //    ept = require('./mbsdata.js').MbsData;
 
-var port = parseInt(process.argv[2] || '3000', 10);
+var port = parseInt(process.argv[2] || '8081', 10);
 if (port < 1000)
    console.log('Operating on Port '+port+' requires priveledge');
 
