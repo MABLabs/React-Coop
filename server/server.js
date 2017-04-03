@@ -78,7 +78,7 @@ app.post('/api/query/endpt/', function(req, res){
 
 app.get('/api/current_temp/', function(req, res) {
   
-    var temp = {Stuff: 72.12}
+    var temp = {Temperature: 72.12}
    // round temperature reading to 1 digit
    sensor.readSimpleF(2, (err, temp) => {
 	  if (err) {
@@ -91,4 +91,37 @@ app.get('/api/current_temp/', function(req, res) {
 	  }
     });
 });
+
+//   var url = `/api/myData/${latitude}/${longitude}/${dooropen}/${doorclose}/${lighton}/${lightoff}/${heaton}/${heatoff}/${fanon}/${fanoff}`;
+
+app.get('/api/myData/:latitude/:longitude/:dooropen/:doorclose/:lighton/:lightoff/:heaton/:heatoff/:fanon/:fanoff', function(req, res){
+      
+     const userData = {
+         latatude,
+         longitude,
+         dooropen,
+         doorclose,
+         lighton,
+         lightoff,
+         heaton,
+         heatoff,
+         fanon,
+         fanoff
+     }
+      
+      var data = JSON.stringify( userData );
+      fs.writeFile('../src/data.json', data);
+      if (err) throw 'error writing file: ' + err;
+
+      let isGood = 'Good';
+      if (err) {
+         isGood = err;
+         }  
+
+      res.writeHead(200, {'Content-Type': 'application/json', 'Content-Length':data.length});
+      var data = JSON.stringify( {isGood} );
+      res.end(data);
+});
+
+
 

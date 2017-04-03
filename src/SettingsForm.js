@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import autoBind from 'react-autobind';
-//import Axios from 'axios';
+import axios from 'axios';
 import myData from './data.json';
 
 class SettingsForm extends Component {
@@ -55,33 +55,12 @@ handleChange(event) {
 }
 
 saveData() {
-/*
-  var out = JSON.stringify(this.state)
-  console.log(this.state);
-  console.log(out);
-  Axios.post('/dataC.json', this.state)
-//  .then(function (response) {
-    .catch(function (error) {
-       if (error.response) {
-         console.log(error.response.data);
-         console.log(error.response.status);
-         console.log(error.response.headers);
-       }
-//           console.log(response);
-//  })
-//  .catch(function (error) {
-//    console.log(error);
-  });
 
-//  var file = '/home/pi/React-Coop/src/data.json';
-//  var out = JSON.stringify(this.state)
-//  console.log(this.state)
-//  console.log(out)
-//  RNFS.writeFile(file, out, function () {
-//    RNFS.readFile(file, 'utf-8', function(err, data) {
-//      console.log(data);
-//    });
-//  });*/
+   const [latitude, longitude, dooropen, doorclose, lighton, lightoff, heaton, heatoff, fanon, fanoff]   = [...this.state];
+//   var url = `/api/myData/${this.state.latitude}/${this.state.longitude}/${this.state.dooropenOffset}/${this.state.doorcloseOffset}/${this.state.lightonOffset}/${this.state.lightoffOffset}/${this.state.heatOn}/${this.state.heatOff}/${this.state.fanOn}/${this.state.fanOff}`;
+   var url = `/api/myData/${latitude}/${longitude}/${dooropen}/${doorclose}/${lighton}/${lightoff}/${heaton}/${heatoff}/${fanon}/${fanoff}`;
+
+   return axios.get(url);
 }
 
 render() {
