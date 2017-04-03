@@ -3,9 +3,8 @@ import autoBind from 'react-autobind';
 import Time from 'react-time'
 import SunCalc from 'suncalc'
 import Clock from 'react-clock'
-//import Temp from 'ds18b20-raspi'
+import axios from 'axios'
 import myData from './data.json';
-//import './led.css';
 
 class StatusForm extends Component {
     constructor(props) {
@@ -15,6 +14,7 @@ class StatusForm extends Component {
 
       this.state = {
         cooptype: 'status',
+        tempF: 'Loading...',
         sunrise: 0,
         sunset: 0,
         dooropen: 0,
@@ -23,8 +23,10 @@ class StatusForm extends Component {
         lightoff: 0,
         heaton: 0,
         heatoff: 0,
+        heatStatus: 'Off',
         fanon: 0,
         fanoff: 0,
+        fanStatus: 'Off',
         newInfo: false
       };
     }
@@ -37,6 +39,40 @@ class StatusForm extends Component {
           stateChange.newInfo = true;
 
           this.setState(stateChange);
+    }
+
+    componentDidMount() {
+      axios.get('/api/current_temp/')
+      .then((response) => { 
+         this.setState({'tempF': response.data}); 
+
+        if (this.state.tempF >= myData.fanOn) 
+           this.setState({'fanStatus': 'On'})
+        else 
+           this.setState({'fanStatus': 'Off'})
+
+        if (this.state.tempF <= myData.heatOn)
+           this.setState({'heatStatus': 'On'})
+        else
+           this.setState({'heatStatus': 'Off'})
+
+      })
+      .catch((error)   => { this.setState({'tempF': error.message}); });
+
+      if (this.state.tempF >= myData.fanOn) {
+         this.setState({'fanStatus': 'On'})
+         console.log('Turn fan On:', this.state.tempF);
+      }
+      else {
+         this.setState({'fanStatus': 'Off'})
+         console.log('Turn fan Off:', this.state.tempF);
+      }
+
+      if (this.state.tempF <= myData.heatOn)
+         this.setState({'heatStatus': 'On'})
+      else
+         this.setState({'heatStatus': 'Off'})
+
     }
 
     submitData() {
@@ -100,6 +136,7 @@ render() {
            <p><Time value={now} format="MM/DD/YYYY"/></p><Clock />
              <div onChange={this.handleChange} >
              <div className="App-entry">
+             <label>Current Temp:</label><b>{this.state.tempF}&deg;</b><br /><br />
              <label>Latitude:</label><b>{lat}</b>
              <label>Longitude:</label><b>{long}</b><br /><br />
              <label>Sun Rise Time:</label><b>{this.state.sunrise}</b>
@@ -108,8 +145,12 @@ render() {
              <label>Door Close Time:</label><b>{this.state.doorClose}</b><br /><br />
              <label>Light On:</label><b>{this.state.lighton}</b>
              <label>Light Off:</label><b>{this.state.lightoff}</b><br /><br />
-             <label>Heat Status:</label><b>Off</b><br /><br />
-             <label>Fan Status:</label><b>Off</b>
+             <label>Heat On:</label><b>{myData.heatOn}&deg;</b>
+             <label>Fan On:</label><b>{myData.fanOn}&deg;</b><br />
+             <label>Heat Off:</label><b>{myData.heatOff}&deg;</b>
+             <label>Fan Off:</label><b>{myData.fanOff}&deg;</b><br />
+             <label>Heat Status:</label><b>{this.state.heatStatus}</b>
+             <label>Fan Status:</label><b>{this.state.fanStatus}</b>
              </div>
            <button type="button" onClick={this.refreshData}>Refresh Page</button>&nbsp;
            </div>

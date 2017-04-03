@@ -2,8 +2,10 @@ var express = require('express'),
     http = require('http'),
     path = require('path'),
     app = express(),
-    bodyParser = require('body-parser');
+    bodyParser = require('body-parser'),
+    fs = require('fs');
 
+const sensor = require('ds18b20-raspi');
 //var getFiles = require('./query.js').getFiles,
 //    ept = require('./mbsdata.js').MbsData;
 
@@ -67,4 +69,20 @@ app.post('/api/query/endpt/', function(req, res){
 
     ept.getEndpt(req.body.filename, ids, getOneAnswer);
 });*/
+
+app.get('/api/current_temp/', function(req, res) {
+  
+    var temp = {Stuff: 72.12}
+   // round temperature reading to 1 digit
+   sensor.readSimpleF(2, (err, temp) => {
+	  if (err) {
+		  console.log(err);
+	  } else {
+	  console.log(`${temp} degF`);
+      var names = JSON.stringify( temp );
+      res.writeHead(200, {'Content-Type': 'application/json', 'Content-Length':names.length});
+      res.end(names);
+	  }
+    });
+});
 

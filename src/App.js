@@ -17,12 +17,39 @@ class App extends Component {
   this.state = {value: 'status'};
 
   this.handleChange = this.handleChange.bind(this);
+/*
+  var Timer = React.createClass({
+    getInitialState: function() {
+      return {secondsElapsed: 0};
+    },
+    tick: function() {
+      this.setState({secondsElapsed: this.state.secondsElapsed + 1});
+    },
+    componentDidMount: function() {
+      this.interval = setInterval(this.tick, 1000);
+    },
+    componentWillUnmount: function() {
+      clearInterval(this.interval);
+    },
+    render: function() {
+      return (
+        <div>Seconds Elapsed: {this.state.secondsElapsed}</div>
+      );
+    }
+  }); */
 }
 
 handleChange(event) {
   console.log('change: ' + event.target.value);
   this.setState({value: event.target.value});
 }
+
+  componentDidMount() {
+    this.interval = setInterval(() => this.setState({ time: Date.now() }), 1000);
+  }
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
 
   render() {
     let activeForm = <div>The Form '{this.state.value}' not yet coded.</div>;
