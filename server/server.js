@@ -5,6 +5,8 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     fs = require('fs');
 
+var myData = require("../src/data.json");
+
 const sensor = require('ds18b20-raspi');
 //var getFiles = require('./query.js').getFiles,
 //    ept = require('./mbsdata.js').MbsData;
@@ -30,6 +32,10 @@ var server = http.createServer(app);
 server.listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
+
+setInterval(function() {
+  console.log('Peek a Boo, I see you');
+}, 10000);
 
 // -----------------------------------------------------------------------------
 //    TEST
