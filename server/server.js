@@ -5,6 +5,8 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     fs = require('fs');
 
+var onoff = require('onoff');
+
 var myData = require("../src/data.json");
 
 const sensor = require('ds18b20-raspi');
@@ -34,7 +36,13 @@ server.listen(app.get('port'), function(){
 });
 
 setInterval(function() {
-  console.log('Peek a Boo, I see you');
+   sensor.readSimpleF(2, (err, temp) => {
+	  if (err) {
+		  console.log(err);
+	  } else {
+	  console.log(`${temp} degF`);
+      }
+   });
 }, 10000);
 
 // -----------------------------------------------------------------------------
@@ -116,7 +124,7 @@ var err;
          fanOff: parseInt(req.params.fanoff)
      }
       
-      console.log('userData = ', userData);
+//      console.log('userData = ', userData);
       var data = JSON.stringify( userData, null, '\t' );
       fs.writeFile('../src/data.json', data);
       if (err) throw 'error writing file: ' + err;
@@ -126,7 +134,7 @@ var err;
          isGood = err;
          }  
 
-      console.log('data = ', data);
+//      console.log('data = ', data);
       res.writeHead(200, {'Content-Type': 'application/json', 'Content-Length':data.length});
       var data = JSON.stringify( {isGood} );
       res.end(data);
