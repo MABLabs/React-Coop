@@ -93,23 +93,31 @@ app.get('/api/current_temp/', function(req, res) {
 });
 
 //   var url = `/api/myData/${latitude}/${longitude}/${dooropen}/${doorclose}/${lighton}/${lightoff}/${heaton}/${heatoff}/${fanon}/${fanoff}`;
-
+// localhost:8081//api/myData/34.63416667/-92.31388889/-20/30/0/40/35/45/80/75
+//var latitude, longitude, dooropen, doorclose, lighton, lightoff, heaton, heatoff, fanon, fanoff;
 app.get('/api/myData/:latitude/:longitude/:dooropen/:doorclose/:lighton/:lightoff/:heaton/:heatoff/:fanon/:fanoff', function(req, res){
-      
+
+var err;
+//var isGood;
+//var latitude, longitude, dooropen, doorclose, lighton, lightoff, heaton, heatoff, fanon, fanoff;
+//console.log('Latitude = ', latitude);
+//var latitude = req.params.latitude;
+  
      const userData = {
-         latatude,
-         longitude,
-         dooropen,
-         doorclose,
-         lighton,
-         lightoff,
-         heaton,
-         heatoff,
-         fanon,
-         fanoff
+         latitude: parseFloat(req.params.latitude),
+         longitude: parseFloat(req.params.longitude),
+         dooropenOffset: parseInt(req.params.dooropen),
+         doorcloseOffset: parseInt(req.params.doorclose),
+         lightonOffset: parseInt(req.params.lighton),
+         lightoffOffset: parseInt(req.params.lightoff),
+         heatOn: parseInt(req.params.heaton),
+         heatOff: parseInt(req.params.heatoff),
+         fanOn: parseInt(req.params.fanon),
+         fanOff: parseInt(req.params.fanoff)
      }
       
-      var data = JSON.stringify( userData );
+      console.log('userData = ', userData);
+      var data = JSON.stringify( userData, null, '\t' );
       fs.writeFile('../src/data.json', data);
       if (err) throw 'error writing file: ' + err;
 
@@ -118,10 +126,11 @@ app.get('/api/myData/:latitude/:longitude/:dooropen/:doorclose/:lighton/:lightof
          isGood = err;
          }  
 
+      console.log('data = ', data);
       res.writeHead(200, {'Content-Type': 'application/json', 'Content-Length':data.length});
       var data = JSON.stringify( {isGood} );
       res.end(data);
 });
 
-
+ 
 
