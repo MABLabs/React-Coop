@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import autoBind from 'react-autobind';
+import Switch from 'react-flexible-switch';
 
 class OverideForm extends Component {
     constructor(props) {
@@ -53,7 +54,10 @@ return <div>
          <h1>Coop Override</h1>
          <div onChange={this.handleChange} >
            <div className="App-entry">
-             <h1>I am here in Override</h1>
+             <b>Activate Light</b><Switch labels={{ on: 'On', off: 'Off' }} /><br />
+             <b>Activate Door</b><Switch labels={{ on: 'On', off: 'Off' }} /><br />
+             <b>Activate Fan</b><Switch labels={{ on: 'On', off: 'Off' }} /><br />
+             <b>Activate Heat</b><Switch labels={{ on: 'On', off: 'Off' }} /><br />
            <hr />
            </div>
          </div>
