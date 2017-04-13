@@ -5,11 +5,21 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     fs = require('fs');
 
-//var onoff = require('onoff');
-
 var myData = require("../src/data.json");
 
 const sensor = require('ds18b20-raspi');
+const rpio = require('rpio');
+
+//Set inmitial states for pin outputs
+const light = 12;
+const door  = 16;
+const heat  = 18;
+const fan   = 22;
+rpio.open(light, rpio.OUTPUT, rpio.LOW);
+rpio.open(door,  rpio.OUTPUT, rpio.LOW);
+rpio.open(heat,  rpio.OUTPUT, rpio.LOW);
+rpio.open(fan,   rpio.OUTPUT, rpio.LOW);
+
 //var getFiles = require('./query.js').getFiles,
 //    ept = require('./mbsdata.js').MbsData;
 
@@ -139,6 +149,79 @@ var err;
       var data = JSON.stringify( {isGood} );
       res.end(data);
 });
+
+app.get('/api/lights_on/', function(req, res) {
+  
+   rpio.write(light, rpio.HIGH);
+   console.log("Lights On");
+      var names = JSON.stringify( "Lights On" );
+      res.writeHead(200, {'Content-Type': 'application/json', 'Content-Length':names.length});
+      res.end(names);
+});
+
+app.get('/api/lights_off/', function(req, res) {
+  
+   rpio.write(light, rpio.LOW);
+   console.log("Lights Off");
+      var names = JSON.stringify( "Lights Off" );
+      res.writeHead(200, {'Content-Type': 'application/json', 'Content-Length':names.length});
+      res.end(names);
+});
+
+app.get('/api/door_on/', function(req, res) {
+  
+   rpio.write(door, rpio.HIGH);
+   console.log("Door On");
+     var names = JSON.stringify( "Door On" );
+     res.writeHead(200, {'Content-Type': 'application/json', 'Content-Length':names.length});
+     res.end(names);
+});
+
+app.get('/api/door_off/', function(req, res) {
+  
+   rpio.write(door, rpio.LOW);
+   console.log("Door Off");
+      var names = JSON.stringify( "Door Off" );
+      res.writeHead(200, {'Content-Type': 'application/json', 'Content-Length':names.length});
+      res.end(names);
+});
+
+app.get('/api/heat_on/', function(req, res) {
+  
+   rpio.write(heat, rpio.HIGH);
+   console.log("Heat On");
+      var names = JSON.stringify( "Heat On" );
+      res.writeHead(200, {'Content-Type': 'application/json', 'Content-Length':names.length});
+      res.end(names);
+});
+
+app.get('/api/heat_off/', function(req, res) {
+  
+   rpio.write(heat, rpio.LOW);
+   console.log("Heat Off");
+      var names = JSON.stringify( "Heat Off" );
+      res.writeHead(200, {'Content-Type': 'application/json', 'Content-Length':names.length});
+      res.end(names);
+});
+
+app.get('/api/fan_on/', function(req, res) {
+  
+   rpio.write(fan, rpio.HIGH);
+   console.log("Fan On");
+      var names = JSON.stringify( "Fan On" );
+      res.writeHead(200, {'Content-Type': 'application/json', 'Content-Length':names.length});
+      res.end(names);
+});
+
+app.get('/api/fan_off/', function(req, res) {
+  
+   rpio.write(fan, rpio.LOW);
+   console.log("Fan Off");
+      var names = JSON.stringify( "Fan Off" );
+      res.writeHead(200, {'Content-Type': 'application/json', 'Content-Length':names.length});
+      res.end(names);
+});
+
 
  
 
