@@ -4,23 +4,6 @@ import Switch from 'react-flexible-switch';
 import Toggle from 'react-toggle';
 import axios from 'axios';
 
-//import sleep from 'sleep';
-
-/*const lightsChange = (active) => {
-  var url = ""
-  if (active) {
-     console.log("Lights On");
-     url = `/api/light_on/`;
-  } else {
-     url = `/api/light_off/`;
-     console.log("Lights Off");
-  }
-
-  axios.get(url);
-  this.setState({ value: active })
-}
-*/
-
 class OverideForm extends Component {
     constructor(props) {
       super(props);
@@ -64,6 +47,15 @@ handleChange(event) {
       this.setState(stateChange);
 }
 
+sleep(milliseconds) {
+  var start = new Date().getTime();
+  for (var i = 0; i < 1e7; i++) {
+    if ((new Date().getTime() - start) > milliseconds) {
+      break;
+    }
+  }
+}
+
 lightsChange (active) {
   var url = ""
   if (active) {
@@ -85,7 +77,7 @@ doorChange (active) {
      url = `/api/door_on/`;
      axios.get(url);
      console.log("Door On");
-//     sleep.sleep(30);
+     this.sleep(30000);
      url = `/api/door_off/`;
      axios.get(url);
      console.log("door Off");
@@ -93,7 +85,7 @@ doorChange (active) {
      url = `/api/door_on/`;
      axios.get(url);
      console.log("Door On");
-//     sleep.sleep(30);
+     this.sleep(30000);
      url = `/api/door_off/`;
      axios.get(url);
      console.log("door Off");
