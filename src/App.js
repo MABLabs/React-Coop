@@ -44,12 +44,12 @@ handleChange(event) {
   this.setState({value: event.target.value});
 }
 
-  componentDidMount() {
-    this.interval = setInterval(() => this.setState({ time: Date.now() }), 1000);
-  }
-  componentWillUnmount() {
-    clearInterval(this.interval);
-  }
+//  componentDidMount() {
+//    this.interval = setInterval(() => this.setState({ time: Date.now() }), 1000);
+//  }
+//  componentWillUnmount() {
+//    clearInterval(this.interval);
+//  }
 
   render() {
     let activeForm = <div>The Form '{this.state.value}' not yet coded.</div>;

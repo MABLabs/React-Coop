@@ -71,27 +71,29 @@ lightsChange (active) {
 }
 
 doorChange (active) {
-  var url = ""
-  console.log("Active = ", active);
-  if (active) {
-     url = `/api/door_on/`;
-     axios.get(url);
-     console.log("Door On");
-     this.sleep(30000);
-     url = `/api/door_off/`;
-     axios.get(url);
-     console.log("door Off");
-  } else {
-     url = `/api/door_on/`;
-     axios.get(url);
-     console.log("Door On");
-     this.sleep(30000);
-     url = `/api/door_off/`;
-     axios.get(url);
-     console.log("door Off");
-  }
+
+   this.doorOn();
+   setTimeout(function() {this.doorOff();}.bind(this), 30000);
 
   this.setState({ value: active })
+}
+
+doorOn () {
+  var url = ""
+
+     url = `/api/door_on/`;
+     axios.get(url);
+     console.log("Door On");
+
+}
+
+doorOff () {
+  var url = ""
+
+     url = `/api/door_off/`;
+     axios.get(url);
+     console.log("Door Off");
+
 }
 
 heatChange (active) {
@@ -132,10 +134,10 @@ return <div>
          <h1>Coop Override</h1>
 {/*         <div onChange={this.handleChange} > */}
            <div className="App-entry">
-             <b>Activate Light</b><Switch onChange={this.lightsChange} labels={{ on: 'On', off: 'Off' }} /><br />
-             <b>Activate Door</b><Switch onChange={this.doorChange} labels={{ on: 'On', off: 'Off' }} /><br />
-             <b>Activate Fan</b><Switch onChange={this.fanChange} labels={{ on: 'On', off: 'Off' }} /><br />
-             <b>Activate Heat</b><Switch onChange={this.heatChange} labels={{ on: 'On', off: 'Off' }} /><br />
+             <b>Activate Light</b><Switch circleStyles={{ onColor: 'green', offColor: 'black'}} onChange={this.lightsChange} labels={{ on: 'On', off: 'Off' }} /><br />
+             <b>Activate Door</b><Switch circleStyles={{ onColor: 'green', offColor: 'blue'}} onChange={this.doorChange} labels={{ on: 'Init', off: 'Init' }} /><br />
+             <b>Activate Fan</b><Switch circleStyles={{ onColor: 'green', offColor: 'black'}} onChange={this.fanChange} labels={{ on: 'On', off: 'Off' }} /><br />
+             <b>Activate Heat</b><Switch circleStyles={{ onColor: 'green', offColor: 'black'}} onChange={this.heatChange} labels={{ on: 'On', off: 'Off' }} /><br />
            <hr />
            </div>
 {/*         </div> */}
