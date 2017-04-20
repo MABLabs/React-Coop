@@ -33,6 +33,7 @@
     "react-time": "^4.2.0",
     "react-toggle": "^3.0.1",
     "rpio": "^0.9.16",
+    "self-reload-json": "^0.3.0",
     "sleep": "^5.1.1",
     "suncalc": "^1.8.0"
   },

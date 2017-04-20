@@ -5,8 +5,10 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     fs = require('fs');
 
-var myData = require("../src/data.json");
+var SelfReloadJSON = require('self-reload-json');
+var myData = new SelfReloadJSON("../src/data.json");
 
+const SunCalc = require('suncalc');
 const sensor = require('ds18b20-raspi');
 const rpio = require('rpio');
 
@@ -45,15 +47,74 @@ server.listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
 
+//Process gpio status
 setInterval(function() {
-   sensor.readSimpleF(2, (err, temp) => {
-	  if (err) {
-		  console.log(err);
-	  } else {
-	  console.log(`${temp} degF`);
-      }
-   });
+
+//   sensor.readSimpleF(2, (err, temp) => {
+//	  if (err) {
+//		  console.log(err);
+//	  } else {
+//      current_temp = temp;
+//	  console.log(`${temp} degF`);
+//      }
+//   });
+
+//    var lat = parseFloat((myData.latitude).toFixed(4));
+//    var long = parseFloat((myData.longitude).toFixed(4));
+
+    var times = SunCalc.getTimes(new Date(), myData.latitude, myData.longitude);
+
+   //Process Light
+   var dooropen = adjustTime(times.sunrise.getHours(), times.sunrise.getMinutes(), myData.dooropenOffset, 'AM');
+   var doorClose = adjustTime((times.sunset.getHours()-12), times.sunset.getMinutes(), myData.doorcloseOffset, 'PM');
+   var lighton = adjustTime(times.sunrise.getHours(), times.sunrise.getMinutes(), myData.lightonOffset, 'AM');
+   var lightoff = adjustTime((times.sunset.getHours()-12), times.sunset.getMinutes(), myData.lightoffOffset, 'PM');
+
+   var current_temp = sensor.readSimpleF(2);
+   console.log(current_temp);
+   //Process Fan Status
+   if (current_temp >= myData.fanOn) {
+     rpio.write(fan, rpio.HIGH);
+     console.log("Fan On");
+   }
+
+   if (current_temp <= myData.fanOff) {
+     rpio.write(fan, rpio.LOW);
+     console.log("Fan Off");
+   }
+     
+   //Process Heat Status
+   if (current_temp <= myData.heatOn) {
+     rpio.write(heat, rpio.HIGH);
+     console.log("Heat On");
+   }
+
+   if (current_temp >= myData.heatOff) { 
+     rpio.write(heat, rpio.LOW);
+     console.log("Heat Off");
+   }
+     
 }, 10000);
+
+function adjustTime(rHours, rMinutes, offset, ampm)
+{
+  var adjustedTime = '';
+
+  var toffset = rMinutes + offset;
+  if (toffset < 0) {
+    rHours--;
+    toffset = 60 + toffset;
+  }
+
+  if (toffset > 59) {
+    rHours++;
+    toffset = toffset - 60;
+  }
+
+  adjustedTime = rHours + ':' + (('00'+toffset).slice(-2)) + ampm;
+
+  return adjustedTime;
+}
 
 // -----------------------------------------------------------------------------
 //    TEST
