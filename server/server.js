@@ -6,7 +6,14 @@ var express = require('express'),
     fs = require('fs');
 
 var SelfReloadJSON = require('self-reload-json');
+var moment = require('moment');
 var myData = new SelfReloadJSON("../src/data.json");
+//var myData = require("../src/data.json");
+
+var overrideLight = false;
+var overrideDoor = false;
+var overrideFan = false;
+var overrideHeat = false;
 
 const SunCalc = require('suncalc');
 const sensor = require('ds18b20-raspi');
@@ -70,28 +77,63 @@ setInterval(function() {
    var lighton = adjustTime(times.sunrise.getHours(), times.sunrise.getMinutes(), myData.lightonOffset, 'AM');
    var lightoff = adjustTime((times.sunset.getHours()-12), times.sunset.getMinutes(), myData.lightoffOffset, 'PM');
 
-   var current_temp = sensor.readSimpleF(2);
-   console.log(current_temp);
-   //Process Fan Status
-   if (current_temp >= myData.fanOn) {
-     rpio.write(fan, rpio.HIGH);
-     console.log("Fan On");
+   var nowTime = moment(new Date()).format('HH:mm');
+   console.log(nowTime);
+//   console.log("on = ", lighton);
+//   console.log("off = ", lightoff);
+
+   //Process light status
+   if (!overrideLight) {
+     if (moment(nowTime, "HH:mm").isBetween(moment(lighton, "HH:mm"), moment(lightoff, "HH:mm"))) {
+       rpio.write(light, rpio.HIGH);
+       console.log("Light On");
+     }
+     else {
+       rpio.write(light, rpio.LOW);
+       console.log("Light Off");
+     }
+   }
+  
+   //Process door status
+   if (!overrideDoor) {
+     if (moment(nowTime, "HH:mm").isSame(moment(lighton, "HH:mm")) && moment(nowTime, "HH:mm").isSame(moment(lightoff, "HH:mm"))) {
+       rpio.write(door, rpio.HIGH);
+       console.log("Door Init");
+     }
+     else {
+       rpio.write(door, rpio.LOW);
+       console.log("Door Off");
+     }
    }
 
-   if (current_temp <= myData.fanOff) {
-     rpio.write(fan, rpio.LOW);
-     console.log("Fan Off");
+   //Get current temperature
+   var current_temp = sensor.readSimpleF(2);
+   console.log(current_temp);
+
+   //Process Fan Status
+   if (!overrideFan) {
+     if (current_temp >= myData.fanOn) {
+       rpio.write(fan, rpio.HIGH);
+       console.log("Fan On");
+     }
+
+     if (current_temp <= myData.fanOff) {
+       rpio.write(fan, rpio.LOW);
+       console.log("Fan Off");
+     }
    }
      
    //Process Heat Status
-   if (current_temp <= myData.heatOn) {
-     rpio.write(heat, rpio.HIGH);
-     console.log("Heat On");
-   }
+   if (!overrideHeat) {
+     if (current_temp <= myData.heatOn) {
+       rpio.write(heat, rpio.HIGH);
+       console.log("Heat On");
+     }
 
-   if (current_temp >= myData.heatOff) { 
-     rpio.write(heat, rpio.LOW);
-     console.log("Heat Off");
+     if (current_temp >= myData.heatOff) { 
+       rpio.write(heat, rpio.LOW);
+       console.log("Heat Off");
+     }
    }
      
 }, 10000);
@@ -111,7 +153,10 @@ function adjustTime(rHours, rMinutes, offset, ampm)
     toffset = toffset - 60;
   }
 
-  adjustedTime = rHours + ':' + (('00'+toffset).slice(-2)) + ampm;
+  if (ampm == "PM")
+  rHours += 12;
+
+  adjustedTime = rHours + ':' + (('00'+toffset).slice(-2));
 
   return adjustedTime;
 }
@@ -213,6 +258,7 @@ var err;
 
 app.get('/api/lights_on/', function(req, res) {
   
+   overrideLight = true;
    rpio.write(light, rpio.HIGH);
    console.log("Lights On");
       var names = JSON.stringify( "Lights On" );
@@ -222,6 +268,7 @@ app.get('/api/lights_on/', function(req, res) {
 
 app.get('/api/lights_off/', function(req, res) {
   
+   overrideLight = false;
    rpio.write(light, rpio.LOW);
    console.log("Lights Off");
       var names = JSON.stringify( "Lights Off" );
@@ -231,6 +278,7 @@ app.get('/api/lights_off/', function(req, res) {
 
 app.get('/api/door_on/', function(req, res) {
   
+   overrideDoor = true;
    rpio.write(door, rpio.HIGH);
    console.log("Door On");
      var names = JSON.stringify( "Door On" );
@@ -240,6 +288,7 @@ app.get('/api/door_on/', function(req, res) {
 
 app.get('/api/door_off/', function(req, res) {
   
+   overrideDoor = false;
    rpio.write(door, rpio.LOW);
    console.log("Door Off");
       var names = JSON.stringify( "Door Off" );
@@ -249,6 +298,7 @@ app.get('/api/door_off/', function(req, res) {
 
 app.get('/api/heat_on/', function(req, res) {
   
+   overrideHeat = true;
    rpio.write(heat, rpio.HIGH);
    console.log("Heat On");
       var names = JSON.stringify( "Heat On" );
@@ -258,6 +308,7 @@ app.get('/api/heat_on/', function(req, res) {
 
 app.get('/api/heat_off/', function(req, res) {
   
+   overrideHeat = false;
    rpio.write(heat, rpio.LOW);
    console.log("Heat Off");
       var names = JSON.stringify( "Heat Off" );
@@ -267,6 +318,7 @@ app.get('/api/heat_off/', function(req, res) {
 
 app.get('/api/fan_on/', function(req, res) {
   
+   overrideFan = true;
    rpio.write(fan, rpio.HIGH);
    console.log("Fan On");
       var names = JSON.stringify( "Fan On" );
@@ -276,6 +328,7 @@ app.get('/api/fan_on/', function(req, res) {
 
 app.get('/api/fan_off/', function(req, res) {
   
+   overrideFan = false;
    rpio.write(fan, rpio.LOW);
    console.log("Fan Off");
       var names = JSON.stringify( "Fan Off" );
