@@ -137,6 +137,11 @@ render() {
              <div onChange={this.handleChange} >
              <div className="App-entry">
              <label>Current Temp:</label><b>{this.state.tempF}&deg;</b><br /><br />
+           <div className="App-box">
+             <div className="App-display">
+             <b>Put Camera Stuff Here</b><br />
+             </div>
+           </div> 
              <label>Latitude:</label><b>{lat}</b>
              <label>Longitude:</label><b>{long}</b><br /><br />
              <label>Sun Rise Time:</label><b>{this.state.sunrise}</b>
