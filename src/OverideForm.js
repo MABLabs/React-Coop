@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import autoBind from 'react-autobind';
 import Switch from 'react-flexible-switch';
-import Toggle from 'react-toggle';
 import axios from 'axios';
 
 class OverideForm extends Component {
