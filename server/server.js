@@ -10,6 +10,7 @@ var moment = require('moment');
 var myData = new SelfReloadJSON("../src/data.json");
 //var myData = require("../src/data.json");
 
+var override = false;
 var overrideLight = true;
 var overrideDoor = false;
 var overrideFan = false;
@@ -268,6 +269,14 @@ var err;
       res.writeHead(200, {'Content-Type': 'application/json', 'Content-Length':data.length});
       var data = JSON.stringify( {isGood} );
       res.end(data);
+});
+
+app.get('/api/override_on/', function(req, res) {
+  override = true;
+});
+
+app.get('/api/override_off/', function(req, res) {
+  override = false;
 });
 
 app.get('/api/lights_on/', function(req, res) {

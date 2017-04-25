@@ -72,6 +72,13 @@ sleep(milliseconds) {
 }
 
 overrideChange (active) {
+  var url = ""
+  if (active) {
+     console.log("Override On");
+     url = `/api/override_on/`;
+  } else {
+     url = `/api/override_off/`;
+     console.log("Override Off");
 }
 
 lightsChange (active) {
