@@ -84,7 +84,7 @@ setInterval(function() {
 //   console.log("off = ", lightoff);
 
    //Process light status
-   if (overrideLight) {
+   if (!override && overrideLight) {
      if (moment(nowTime, "HH:mm").isBetween(moment(lighton, "HH:mm"), moment(lightoff, "HH:mm"))) {
        rpio.write(light, rpio.HIGH);
        console.log("Light On");
@@ -112,7 +112,7 @@ setInterval(function() {
    console.log(current_temp);
 
    //Process Fan Status
-   if (!overrideFan) {
+   if (!override && !overrideFan) {
      if (current_temp >= myData.fanOn) {
        rpio.write(fan, rpio.HIGH);
        console.log("Fan On");
@@ -125,7 +125,7 @@ setInterval(function() {
    }
      
    //Process Heat Status
-   if (!overrideHeat) {
+   if (!override && !overrideHeat) {
      if (current_temp <= myData.heatOn) {
        rpio.write(heat, rpio.HIGH);
        console.log("Heat On");
