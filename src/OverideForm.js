@@ -71,6 +71,9 @@ sleep(milliseconds) {
   }
 }
 
+overrideChange (active) {
+}
+
 lightsChange (active) {
   var url = ""
   if (active) {
@@ -155,6 +158,7 @@ return <div>
          <h1>Coop Override</h1>
 {/*         <div onChange={this.handleChange} > */}
            <div className="App-entry">
+             <b>Over Ride</b><Switch circleStyles={{ onColor: 'green', offColor: 'grey'}} onChange={this.overrideChange} labels={{ on: 'On', off: 'Off' }} /><br />
              <b>Activate Light</b><Switch value={this.state.light} circleStyles={{ onColor: 'green', offColor: 'grey'}} onChange={this.lightsChange} labels={{ on: 'On', off: 'Off' }} /><br />
              <b>Activate Door</b><Switch circleStyles={{ onColor: 'green', offColor: 'blue'}} onChange={this.doorChange} labels={{ on: 'Init', off: 'Init' }} /><br />
              <b>Activate Heat</b><Switch value={this.state.heat} circleStyles={{ onColor: 'green', offColor: 'grey'}} onChange={this.heatChange} labels={{ on: 'On', off: 'Off' }} /><br />

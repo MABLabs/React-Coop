@@ -93,7 +93,7 @@ setInterval(function() {
        console.log("Light Off");
      }
    }
-  
+ 
    //Process door status
    if (!overrideDoor) {
      if (moment(nowTime, "HH:mm").isSame(moment(lighton, "HH:mm")) && moment(nowTime, "HH:mm").isSame(moment(lightoff, "HH:mm"))) {
