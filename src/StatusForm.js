@@ -17,16 +17,18 @@ class StatusForm extends Component {
         tempF: 'Loading...',
         sunrise: 0,
         sunset: 0,
+        doorStatus: 'red-led',
         dooropen: 0,
         doorclose: 0,
+        lightStatus: 'red-led',
         lighton: 0,
         lightoff: 0,
         heaton: 0,
         heatoff: 0,
-        heatStatus: 'Off',
+        heatStatus: 'red-led',
         fanon: 0,
         fanoff: 0,
-        fanStatus: 'Off',
+        fanStatus: 'red-led',
         newInfo: false
       };
     }
@@ -42,23 +44,48 @@ class StatusForm extends Component {
     }
 
     componentDidMount() {
+      axios.get('/api/current_status/')
+      .then((response) => {
+        console.log(response.data);
+        if (response.data.light)
+           this.setState({'lightStatus': 'green-led'})
+        else
+           this.setState({'lightStatus': 'red-led'})
+
+        if (response.data.door)
+           this.setState({'doorStatus': 'green-led'})
+        else
+           this.setState({'doorStatus': 'red-led'})
+
+        if (response.data.heat)
+           this.setState({'heatStatus': 'green-led'})
+        else
+           this.setState({'heatStatus': 'red-led'})
+
+        if (response.data.fan)
+           this.setState({'fanStatus': 'green-led'})
+        else
+           this.setState({'fanStatus': 'red-led'})
+      })
+      .catch((error)   => { console.log(error.message); });
+ 
       axios.get('/api/current_temp/')
       .then((response) => { 
          this.setState({'tempF': response.data}); 
 
-        if (this.state.tempF >= myData.fanOn) 
-           this.setState({'fanStatus': 'On'})
-        else 
-           this.setState({'fanStatus': 'Off'})
+ //       if (this.state.tempF >= myData.fanOn) 
+ //          this.setState({'fanStatus': 'On'})
+ //       else 
+ //          this.setState({'fanStatus': 'Off'})
 
-        if (this.state.tempF <= myData.heatOn)
-           this.setState({'heatStatus': 'On'})
-        else
-           this.setState({'heatStatus': 'Off'})
-
+//        if (this.state.tempF <= myData.heatOn)
+//           this.setState({'heatStatus': 'On'})
+//        else
+//           this.setState({'heatStatus': 'Off'})
+//
       })
       .catch((error)   => { this.setState({'tempF': error.message}); });
-
+/*
       if (this.state.tempF >= myData.fanOn) {
          this.setState({'fanStatus': 'On'})
          console.log('Turn fan On:', this.state.tempF);
@@ -72,7 +99,7 @@ class StatusForm extends Component {
          this.setState({'heatStatus': 'On'})
       else
          this.setState({'heatStatus': 'Off'})
-
+*/
     }
 
     submitData() {
@@ -137,11 +164,13 @@ render() {
              <div onChange={this.handleChange} >
              <div className="App-entry">
              <label>Current Temp:</label><b>{this.state.tempF}&deg;</b><br /><br />
-           <div className="App-box">
+           {/*<div className="App-box">
              <div className="App-display">
-             <b>Put Camera Stuff Here</b><br />
+             Put Stuff Here
+             <div className="led led-green"></div>
+             <div className="led led-red"></div>
              </div>
-           </div> 
+           </div>*/}
              <label>Latitude:</label><b>{lat}</b>
              <label>Longitude:</label><b>{long}</b><br /><br />
              <label>Sun Rise Time:</label><b>{this.state.sunrise}</b>
@@ -153,9 +182,11 @@ render() {
              <label>Heat On:</label><b>{myData.heatOn}&deg;</b>
              <label>Fan On:</label><b>{myData.fanOn}&deg;</b><br />
              <label>Heat Off:</label><b>{myData.heatOff}&deg;</b>
-             <label>Fan Off:</label><b>{myData.fanOff}&deg;</b><br />
-             <label>Heat Status:</label><b>{this.state.heatStatus}</b>
-             <label>Fan Status:</label><b>{this.state.fanStatus}</b>
+             <label>Fan Off:</label><b>{myData.fanOff}&deg;</b><br /><br />
+             <label>Light Status:</label><label><div className={this.state.lightStatus}></div></label><br />
+             <label>Door Status:</label><label><div className={this.state.doorStatus}></div></label><br />
+             <label>Heat Status:</label><label><div className={this.state.heatStatus}></div></label><br />
+             <label>Fan Status:</label><label><div className={this.state.fanStatus}></div></label>
              </div>
            <button type="button" onClick={this.refreshData}>Refresh Page</button>&nbsp;
            </div>

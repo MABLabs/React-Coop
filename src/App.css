@@ -53,6 +53,28 @@
   font-size: large;
 }
 
+.red-led {
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  border-radius: 50%;
+  box-shadow: 0px 0px 6px 2px red;
+  
+  float:left;
+  margin-right: 10px;
+}
+
+.green-led {
+  width: 10px;
+  height: 10px;
+  background-color: green;
+  border-radius: 50%;
+  box-shadow: 0px 0px 6px 2px green;
+  
+  float:left;
+  margin-right: 10px;
+}
+
 vr {
     display: block;
     width:1px;

@@ -135,8 +135,8 @@ return <div>
            <div className="App-entry">
              <b>Activate Light</b><Switch circleStyles={{ onColor: 'green', offColor: 'grey'}} onChange={this.lightsChange} labels={{ on: 'On', off: 'Off' }} /><br />
              <b>Activate Door</b><Switch circleStyles={{ onColor: 'green', offColor: 'blue'}} onChange={this.doorChange} labels={{ on: 'Init', off: 'Init' }} /><br />
-             <b>Activate Fan</b><Switch circleStyles={{ onColor: 'green', offColor: 'grey'}} onChange={this.fanChange} labels={{ on: 'On', off: 'Off' }} /><br />
              <b>Activate Heat</b><Switch circleStyles={{ onColor: 'green', offColor: 'grey'}} onChange={this.heatChange} labels={{ on: 'On', off: 'Off' }} /><br />
+             <b>Activate Fan</b><Switch circleStyles={{ onColor: 'green', offColor: 'grey'}} onChange={this.fanChange} labels={{ on: 'On', off: 'Off' }} /><br />
            <hr />
            </div>
 {/*         </div> */}

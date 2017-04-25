@@ -10,7 +10,7 @@ var moment = require('moment');
 var myData = new SelfReloadJSON("../src/data.json");
 //var myData = require("../src/data.json");
 
-var overrideLight = false;
+var overrideLight = true;
 var overrideDoor = false;
 var overrideFan = false;
 var overrideHeat = false;
@@ -83,7 +83,7 @@ setInterval(function() {
 //   console.log("off = ", lightoff);
 
    //Process light status
-   if (!overrideLight) {
+   if (overrideLight) {
      if (moment(nowTime, "HH:mm").isBetween(moment(lighton, "HH:mm"), moment(lightoff, "HH:mm"))) {
        rpio.write(light, rpio.HIGH);
        console.log("Light On");
@@ -199,6 +199,20 @@ app.post('/api/query/endpt/', function(req, res){
 
     ept.getEndpt(req.body.filename, ids, getOneAnswer);
 });*/
+app.get('/api/current_status/', function(req, res) {
+
+     const statusData = {
+         light: overrideLight,
+         door:  overrideDoor,
+         heat:  overrideHeat,
+         fan:   overrideFan
+     }
+
+	  console.log(`${statusData}`);
+      var names = JSON.stringify( statusData );
+      res.writeHead(200, {'Content-Type': 'application/json', 'Content-Length':names.length});
+      res.end(names);
+});
 
 app.get('/api/current_temp/', function(req, res) {
   
