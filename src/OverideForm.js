@@ -79,6 +79,7 @@ overrideChange (active) {
   } else {
      url = `/api/override_off/`;
      console.log("Override Off");
+  }
 }
 
 lightsChange (active) {
