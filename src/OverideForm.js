@@ -8,6 +8,10 @@ class OverideForm extends Component {
       super(props);
 
       this.state = {
+          light: false, 
+          door:  false,
+          heat:  false,
+          fan:   false,
           value: false
       }
 
@@ -36,6 +40,18 @@ checkValid() {
         return valid;
 }
 
+componentDidMount() {
+
+axios.get('/api/current_status/')
+.then((response) => {
+  this.setState({'light': response.data.light})
+  this.setState({'door': response.data.door})
+  this.setState({'heat': response.data.heat})
+  this.setState({'fan': response.data.fan})
+  })
+ .catch((error)   => { console.log(error.message); });
+}
+
 handleChange(event) {
       event.preventDefault();
 
@@ -58,9 +74,11 @@ sleep(milliseconds) {
 lightsChange (active) {
   var url = ""
   if (active) {
+     this.setState({light: true});
      console.log("Lights On");
      url = `/api/lights_on/`;
   } else {
+     this.setState({light: false});
      url = `/api/lights_off/`;
      console.log("Lights Off");
   }
@@ -98,9 +116,11 @@ doorOff () {
 heatChange (active) {
   var url = ""
   if (active) {
+     this.setState({heat: true});
      console.log("Heat On");
      url = `/api/heat_on/`;
   } else {
+     this.setState({heat: false});
      url = `/api/heat_off/`;
      console.log("heat Off");
   }
@@ -112,9 +132,11 @@ heatChange (active) {
 fanChange (active) {
   var url = ""
   if (active) {
+     this.setState({fan: true});
      console.log("Fan On");
      url = `/api/fan_on/`;
   } else {
+     this.setState({fan: false});
      url = `/api/fan_off/`;
      console.log("Fan Off");
   }
@@ -133,10 +155,10 @@ return <div>
          <h1>Coop Override</h1>
 {/*         <div onChange={this.handleChange} > */}
            <div className="App-entry">
-             <b>Activate Light</b><Switch circleStyles={{ onColor: 'green', offColor: 'grey'}} onChange={this.lightsChange} labels={{ on: 'On', off: 'Off' }} /><br />
+             <b>Activate Light</b><Switch value={this.state.light} circleStyles={{ onColor: 'green', offColor: 'grey'}} onChange={this.lightsChange} labels={{ on: 'On', off: 'Off' }} /><br />
              <b>Activate Door</b><Switch circleStyles={{ onColor: 'green', offColor: 'blue'}} onChange={this.doorChange} labels={{ on: 'Init', off: 'Init' }} /><br />
-             <b>Activate Heat</b><Switch circleStyles={{ onColor: 'green', offColor: 'grey'}} onChange={this.heatChange} labels={{ on: 'On', off: 'Off' }} /><br />
-             <b>Activate Fan</b><Switch circleStyles={{ onColor: 'green', offColor: 'grey'}} onChange={this.fanChange} labels={{ on: 'On', off: 'Off' }} /><br />
+             <b>Activate Heat</b><Switch value={this.state.heat} circleStyles={{ onColor: 'green', offColor: 'grey'}} onChange={this.heatChange} labels={{ on: 'On', off: 'Off' }} /><br />
+             <b>Activate Fan</b><Switch value={this.state.fan} circleStyles={{ onColor: 'green', offColor: 'grey'}} onChange={this.fanChange} labels={{ on: 'On', off: 'Off' }} /><br />
            <hr />
            </div>
 {/*         </div> */}
