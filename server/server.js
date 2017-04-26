@@ -84,19 +84,21 @@ setInterval(function() {
 //   console.log("off = ", lightoff);
 
    //Process light status
-   if (!override && !overrideLight) {
+   if (!override) {
      if (moment(nowTime, "HH:mm").isBetween(moment(lighton, "HH:mm"), moment(lightoff, "HH:mm"))) {
        rpio.write(light, rpio.HIGH);
+       overrideLight = true;
        console.log("Light On");
      }
      else {
        rpio.write(light, rpio.LOW);
+       overrideLight = false;
        console.log("Light Off");
      }
    }
  
    //Process door status
-   if (!overrideDoor) {
+//   if (!overrideDoor) {
      if (moment(nowTime, "HH:mm").isSame(moment(lighton, "HH:mm")) && moment(nowTime, "HH:mm").isSame(moment(lightoff, "HH:mm"))) {
        rpio.write(door, rpio.HIGH);
        console.log("Door Init");
@@ -105,38 +107,41 @@ setInterval(function() {
        rpio.write(door, rpio.LOW);
        console.log("Door Off");
      }
-   }
+//   }
 
    //Get current temperature
    var current_temp = sensor.readSimpleF(2);
    console.log(current_temp);
 
    //Process Fan Status
-   if (!override && !overrideFan) {
+   if (!override) {
      if (current_temp >= myData.fanOn) {
        rpio.write(fan, rpio.HIGH);
+       overrideFan = true;
        console.log("Fan On");
      }
 
      if (current_temp <= myData.fanOff) {
        rpio.write(fan, rpio.LOW);
+       overrideFan = false;
        console.log("Fan Off");
      }
    }
      
    //Process Heat Status
-   if (!override && !overrideHeat) {
+   if (!override) {
      if (current_temp <= myData.heatOn) {
        rpio.write(heat, rpio.HIGH);
+       overrideHeat = true;
        console.log("Heat On");
      }
 
      if (current_temp >= myData.heatOff) { 
        rpio.write(heat, rpio.LOW);
+       overrideHeat = false;
        console.log("Heat Off");
      }
    }
-     
 }, 10000);
 
 function adjustTime(rHours, rMinutes, offset, ampm)
