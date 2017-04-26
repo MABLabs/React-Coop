@@ -11,7 +11,7 @@ var myData = new SelfReloadJSON("../src/data.json");
 //var myData = require("../src/data.json");
 
 var override = false;
-var overrideLight = true;
+var overrideLight = false;
 var overrideDoor = false;
 var overrideFan = false;
 var overrideHeat = false;
@@ -84,7 +84,7 @@ setInterval(function() {
 //   console.log("off = ", lightoff);
 
    //Process light status
-   if (!override && overrideLight) {
+   if (!override && !overrideLight) {
      if (moment(nowTime, "HH:mm").isBetween(moment(lighton, "HH:mm"), moment(lightoff, "HH:mm"))) {
        rpio.write(light, rpio.HIGH);
        console.log("Light On");
