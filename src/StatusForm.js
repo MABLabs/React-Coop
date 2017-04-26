@@ -15,6 +15,7 @@ class StatusForm extends Component {
       this.state = {
         cooptype: 'status',
         tempF: 'Loading...',
+        overStatus: 'red-led',
         sunrise: 0,
         sunset: 0,
         doorStatus: 'red-led',
@@ -47,6 +48,11 @@ class StatusForm extends Component {
       axios.get('/api/current_status/')
       .then((response) => {
         console.log(response.data);
+        if (response.data.over)
+           this.setState({'overStatus': 'green-led'})
+        else
+           this.setState({'overStatus': 'red-led'})
+
         if (response.data.light)
            this.setState({'lightStatus': 'green-led'})
         else
@@ -183,6 +189,7 @@ render() {
              <label>Fan On:</label><b>{myData.fanOn}&deg;</b><br />
              <label>Heat Off:</label><b>{myData.heatOff}&deg;</b>
              <label>Fan Off:</label><b>{myData.fanOff}&deg;</b><br /><br />
+             <label>Lock Status:</label><label><div className={this.state.overStatus}></div></label><br />
              <label>Light Status:</label><label><div className={this.state.lightStatus}></div></label><br />
              <label>Door Status:</label><label><div className={this.state.doorStatus}></div></label><br />
              <label>Heat Status:</label><label><div className={this.state.heatStatus}></div></label><br />

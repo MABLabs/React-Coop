@@ -8,11 +8,12 @@ class OverideForm extends Component {
       super(props);
 
       this.state = {
-          light: false, 
-          door:  false,
-          heat:  false,
-          fan:   false,
-          value: false
+          override: false,
+          light:    false, 
+          door:     false,
+          heat:     false,
+          fan:      false,
+          value:    false
       }
 
       autoBind(this);
@@ -44,6 +45,7 @@ componentDidMount() {
 
 axios.get('/api/current_status/')
 .then((response) => {
+  this.setState({'override': response.data.over})
   this.setState({'light': response.data.light})
   this.setState({'door': response.data.door})
   this.setState({'heat': response.data.heat})
@@ -74,12 +76,17 @@ sleep(milliseconds) {
 overrideChange (active) {
   var url = ""
   if (active) {
+     this.setState({override: true});
      console.log("Override On");
      url = `/api/override_on/`;
   } else {
+     this.setState({override: false});
      url = `/api/override_off/`;
      console.log("Override Off");
   }
+
+  axios.get(url);
+  this.setState({ value: active });
 }
 
 lightsChange (active) {
@@ -166,7 +173,7 @@ return <div>
          <h1>Coop Override</h1>
 {/*         <div onChange={this.handleChange} > */}
            <div className="App-entry">
-             <b>Override Lock</b><Switch circleStyles={{ onColor: 'green', offColor: 'grey'}} onChange={this.overrideChange} labels={{ on: 'On', off: 'Off' }} /><br />
+             <b>Override Lock</b><Switch value={this.state.override} circleStyles={{ onColor: 'green', offColor: 'grey'}} onChange={this.overrideChange} labels={{ on: 'On', off: 'Off' }} /><br />
              <b>Activate Light</b><Switch value={this.state.light} circleStyles={{ onColor: 'green', offColor: 'grey'}} onChange={this.lightsChange} labels={{ on: 'On', off: 'Off' }} /><br />
              <b>Activate Door</b><Switch circleStyles={{ onColor: 'green', offColor: 'blue'}} onChange={this.doorChange} labels={{ on: 'Init', off: 'Init' }} /><br />
              <b>Activate Heat</b><Switch value={this.state.heat} circleStyles={{ onColor: 'green', offColor: 'grey'}} onChange={this.heatChange} labels={{ on: 'On', off: 'Off' }} /><br />

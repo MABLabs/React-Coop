@@ -208,6 +208,7 @@ app.post('/api/query/endpt/', function(req, res){
 app.get('/api/current_status/', function(req, res) {
 
      const statusData = {
+         over:  override,
          light: overrideLight,
          door:  overrideDoor,
          heat:  overrideHeat,
