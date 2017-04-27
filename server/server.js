@@ -98,7 +98,7 @@ setInterval(function() {
    }
  
    //Process door status
-//   if (!overrideDoor) {
+   if (!overrideDoor) {
      if (moment(nowTime, "HH:mm").isSame(moment(lighton, "HH:mm")) && moment(nowTime, "HH:mm").isSame(moment(lightoff, "HH:mm"))) {
        rpio.write(door, rpio.HIGH);
        console.log("Door Init");
@@ -107,7 +107,7 @@ setInterval(function() {
        rpio.write(door, rpio.LOW);
        console.log("Door Off");
      }
-//   }
+   }
 
    //Get current temperature
    var current_temp = sensor.readSimpleF(2);
