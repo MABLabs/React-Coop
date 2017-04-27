@@ -279,10 +279,19 @@ var err;
 
 app.get('/api/override_on/', function(req, res) {
   override = true;
+  console.log("Override On");
+     var names = JSON.stringify( "Override On" );
+     res.writeHead(200, {'Content-Type': 'application/json', 'Content-Length':names.length});
+     res.end(names);
+
 });
 
 app.get('/api/override_off/', function(req, res) {
   override = false;
+  console.log("Override Off");
+     var names = JSON.stringify( "Override Off" );
+     res.writeHead(200, {'Content-Type': 'application/json', 'Content-Length':names.length});
+     res.end(names);
 });
 
 app.get('/api/lights_on/', function(req, res) {
