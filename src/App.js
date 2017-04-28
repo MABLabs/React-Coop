@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 //import logo from './logo.svg';
 import logo from './RedroosterSmall.png';
 //import autoBind from 'react-autobind';
-//import fs from 'react-native-fs'
 
 import './App.css';
-import './led.css';
 
 import StatusForm from './StatusForm.js';
 import SettingsForm from './SettingsForm.js';
