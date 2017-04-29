@@ -98,7 +98,7 @@ setInterval(function() {
    }
  
    //Process door status
-   if (!overrideDoor) {
+   if (!override) {
      if (moment(nowTime, "HH:mm").isSame(moment(lighton, "HH:mm")) && moment(nowTime, "HH:mm").isSame(moment(lightoff, "HH:mm"))) {
        rpio.write(door, rpio.HIGH);
        console.log("Door Init");
