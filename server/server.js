@@ -99,7 +99,7 @@ setInterval(function() {
  
    //Process door status
    if (!override) {
-     if (moment(nowTime, "HH:mm").isSame(moment(dooropen, "HH:mm")) && moment(nowTime, "HH:mm").isSame(moment(doorclose, "HH:mm"))) {
+     if (moment(nowTime, "HH:mm").isSame(moment(dooropen, "HH:mm")) || moment(nowTime, "HH:mm").isSame(moment(doorclose, "HH:mm"))) {
        rpio.write(door, rpio.HIGH);
        console.log("Door Init");
      }
