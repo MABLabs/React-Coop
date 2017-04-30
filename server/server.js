@@ -74,7 +74,7 @@ setInterval(function() {
 
    //Process Light
    var dooropen = adjustTime(times.sunrise.getHours(), times.sunrise.getMinutes(), myData.dooropenOffset, 'AM');
-   var doorClose = adjustTime((times.sunset.getHours()-12), times.sunset.getMinutes(), myData.doorcloseOffset, 'PM');
+   var doorclose = adjustTime((times.sunset.getHours()-12), times.sunset.getMinutes(), myData.doorcloseOffset, 'PM');
    var lighton = adjustTime(times.sunrise.getHours(), times.sunrise.getMinutes(), myData.lightonOffset, 'AM');
    var lightoff = adjustTime((times.sunset.getHours()-12), times.sunset.getMinutes(), myData.lightoffOffset, 'PM');
 
@@ -99,7 +99,7 @@ setInterval(function() {
  
    //Process door status
    if (!override) {
-     if (moment(nowTime, "HH:mm").isSame(moment(lighton, "HH:mm")) && moment(nowTime, "HH:mm").isSame(moment(lightoff, "HH:mm"))) {
+     if (moment(nowTime, "HH:mm").isSame(moment(dooropen, "HH:mm")) && moment(nowTime, "HH:mm").isSame(moment(doorclose, "HH:mm"))) {
        rpio.write(door, rpio.HIGH);
        console.log("Door Init");
      }
