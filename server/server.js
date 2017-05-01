@@ -75,8 +75,8 @@ setInterval(function() {
    //Process Light
    var dooropen = adjustTime(times.sunrise.getHours(), times.sunrise.getMinutes(), myData.dooropenOffset, 'AM');
    var doorclose = adjustTime((times.sunset.getHours()-12), times.sunset.getMinutes(), myData.doorcloseOffset, 'PM');
-   var lighton = adjustTime(times.sunrise.getHours(), times.sunrise.getMinutes(), myData.lightonOffset, 'AM');
-   var lightoff = adjustTime((times.sunset.getHours()-12), times.sunset.getMinutes(), myData.lightoffOffset, 'PM');
+   var lighton = adjustTime(times.sunrise.getHours(), times.sunrise.getMinutes()-1, myData.lightonOffset, 'AM');
+   var lightoff = adjustTime((times.sunset.getHours()-12), times.sunset.getMinutes()+1, myData.lightoffOffset, 'PM');
 
    var nowTime = moment(new Date()).format('HH:mm');
    console.log(nowTime);
