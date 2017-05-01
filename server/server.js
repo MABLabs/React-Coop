@@ -101,10 +101,12 @@ setInterval(function() {
    if (!override) {
      if (moment(nowTime, "HH:mm").isSame(moment(dooropen, "HH:mm")) || moment(nowTime, "HH:mm").isSame(moment(doorclose, "HH:mm"))) {
        rpio.write(door, rpio.HIGH);
+       overrideDoor = true;
        console.log("Door Init");
      }
      else {
        rpio.write(door, rpio.LOW);
+       overrideDoor = false;
        console.log("Door Off");
      }
    }
